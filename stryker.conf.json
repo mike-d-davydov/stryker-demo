@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json",
+  "coverageAnalysis": "off",
+  "tsconfigFile": "tsconfig.json",
+  "mutator": "typescript",
+  "reporters": ["clear-text", "progress", "html"],
+  "transpilers": ["typescript"]
+}

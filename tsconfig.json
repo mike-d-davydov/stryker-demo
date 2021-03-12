@@ -1,13 +1,13 @@
 {
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "lib": ["es2018", "dom"],
-      "allowUnreachableCode": true,
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "outDir": "dist/",
-      "target": "ES6",
-      "esModuleInterop": true
-    }
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["es2018", "dom"],
+    "allowUnreachableCode": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "outDir": "dist/",
+    "target": "ES6",
+    "esModuleInterop": true
   }
+}

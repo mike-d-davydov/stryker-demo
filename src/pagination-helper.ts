@@ -1,4 +1,6 @@
-/*
+/* 
+
+** Requirements: **
 
 The class is designed to take in an array of values and an integer indicating how many items will be allowed per each page. \ 
 The types of values contained within the collection/array are not relevant.
@@ -25,36 +27,34 @@ helper.pageIndex(-10) # should == -1 because negative indexes are invalid
 */
 
 export class PaginationHelper {
+  constructor(private elements: any[], private pageSize: number) {}
 
-    constructor(private elements: any[], private pageSize: number){}
-    
-    public get pageCount(): number {
-        return Math.ceil(this.elements.length / this.pageSize);
+  public get pageCount(): number {
+    return Math.ceil(this.elements.length / this.pageSize);
+  }
+
+  public get itemCount(): number {
+    return this.elements.length;
+  }
+
+  public pageIndex(elementIndex: number): number {
+    if (elementIndex > this.itemCount - 1 || elementIndex < 0) {
+      return -1;
+    }
+    return Math.floor(elementIndex / this.pageSize);
+  }
+
+  public pageItemCount(pageIndex: number): number {
+    if (pageIndex < 0) {
+      return -1;
     }
 
-    public get itemCount():number {
-        return this.elements.length;
+    if (pageIndex < this.pageCount - 1) {
+      return this.pageSize;
+    } else if (pageIndex == this.pageCount - 1) {
+      return this.pageSize - (this.itemCount % this.pageSize);
+    } else {
+      return -1;
     }
-
-    public pageIndex(elementIndex: number): number {
-        if (elementIndex > this.itemCount - 1 || elementIndex < 0){
-            return -1;
-        }
-        return Math.floor(elementIndex / this.pageSize);
-    }
-
-    public pageItemCount(pageIndex: number): number {
-        if (pageIndex < 0){
-            return -1;
-        }
-        
-        if (pageIndex < this.pageCount - 1 ){
-            return this.pageSize;
-        } else if (pageIndex == this.pageCount - 1) {
-            console.log('there')
-            return this.pageSize - (this.itemCount % this.pageSize);
-        } else {
-            return -1;
-        }
-    }
+  }
 }

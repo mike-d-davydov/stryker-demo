@@ -1,5 +1,4 @@
-
-import { PaginationHelper } from './pagination-helper';
+import { PaginationHelper } from "./pagination-helper";
 
 /*   
 Class Usage:
@@ -24,27 +23,26 @@ helper.pageIndex(-10) # should == -1 because negative indexes are invalid
 */
 
 describe("Pagination Helper class", () => {
+  const helper = new PaginationHelper(["a", "b", "c", "d", "e", "f"], 4);
 
-    const helper = new PaginationHelper(['a','b','c','d','e','f'], 4);
+  it("should return itemCount", () => {
+    expect(helper.itemCount).toBe(6);
+  });
 
-    it("should return itemCount", ()=> { 
-        expect(helper.itemCount).toBe(6);
-    });
+  it("should return pageCount", () => {
+    expect(helper.pageCount).toBe(2);
+  });
 
-    it("should return pageCount", () => {
-        expect(helper.pageCount).toBe(2);
-    })
+  it("should calculate Page Index", () => {
+    expect(helper.pageIndex(5)).toBe(1);
+    expect(helper.pageIndex(2)).toBe(0);
+    expect(helper.pageIndex(20)).toBe(-1);
+    expect(helper.pageIndex(-10)).toBe(-1);
+  });
 
-    it("should calculate Page Index", ()=> {
-        expect(helper.pageIndex(5)).toBe(1); 
-        expect(helper.pageIndex(2)).toBe(0); 
-        expect(helper.pageIndex(20)).toBe(-1); 
-        expect(helper.pageIndex(-10)).toBe(-1); 
-    });
-
-    it("should calculate Page Item Count Index", ()=> {        
-        expect(helper.pageItemCount(0)).toBe(4);         
-        expect(helper.pageItemCount(1)).toBe(2); 
-        expect(helper.pageItemCount(2)).toBe(-1); 
-    });
+  it("should calculate Page Item Count Index", () => {
+    expect(helper.pageItemCount(0)).toBe(4);
+    expect(helper.pageItemCount(1)).toBe(2);
+    expect(helper.pageItemCount(2)).toBe(-1);
+  });
 });
