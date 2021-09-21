@@ -1,3 +1,3 @@
 # stryker-demo
 
-How to write unit tests so that they find regression bugs
+Code sample for InRhythm Lightning Talk demo ("Introduction into test design and test coverage")
