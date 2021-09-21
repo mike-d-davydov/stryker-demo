@@ -3,7 +3,7 @@
 import {Card, Rank, SetOfCards, Suit} from './cards';
 
 describe("cards", ()=>{
-    const cards = [{suit:Suit.diamonds, rank: Rank.ACE}, {suit:Suit.clubs, rank: Rank.FOUR}];
+    const cards = [{suit:Suit.DIAMONDS, rank: Rank.ACE}, {suit:Suit.CLUBS, rank: Rank.FOUR}];
     const setOfCards = new SetOfCards(cards);
     
     test("cards property", ()=>{
@@ -12,92 +12,119 @@ describe("cards", ()=>{
     
     test("has", ()=>{        
         expect(setOfCards).toBeTruthy();
-        expect(setOfCards.has({suit:Suit.clubs, rank: Rank.EIGHT})).toBeFalsy();
-        expect(setOfCards.has({suit:Suit.clubs, rank: Rank.FOUR})).toBeTruthy();        
+        expect(setOfCards.has({suit:Suit.CLUBS, rank: Rank.EIGHT})).toBeFalsy();
+        expect(setOfCards.has({suit:Suit.CLUBS, rank: Rank.FOUR})).toBeTruthy();        
     });
 
     test("put", ()=>{
         const cards1 = Array.from(cards);
-        cards1.push({suit:Suit.hearts, rank: Rank.JACK});
-        const thisSet = new SetOfCards(cards1);        
-        const otherSet = new SetOfCards([{suit: Suit.spades, rank: Rank.QUEEN}]); 
+        cards1.push({suit:Suit.HEARTS, rank: Rank.JACK});
+        const set1 = new SetOfCards(cards1);        
+        const set2 = new SetOfCards([{suit: Suit.SPADES, rank: Rank.QUEEN}]); 
         
         /* put number of cards less then present */
         
-        let cardsPut = thisSet.put(otherSet, 1);
+        let cardsPut = set1.put(set2, 1);
         expect(cardsPut).toBe(1);
-        expect(thisSet.cards).toEqual(cards);
-        expect(otherSet.cards).toHaveLength(2);
-        expect(otherSet.cards).toEqual([{suit: Suit.spades, rank: Rank.QUEEN},{suit:Suit.hearts, rank: Rank.JACK}]);
+        expect(set1.cards).toEqual(cards);
+        expect(set2.cards).toHaveLength(2);
+        expect(set2.cards).toEqual([{suit: Suit.SPADES, rank: Rank.QUEEN},{suit:Suit.HEARTS, rank: Rank.JACK}]);
 
         /* put number of cards more than present */
 
-        cardsPut = thisSet.put(otherSet, 3);
+        cardsPut = set1.put(set2, 3);
         expect(cardsPut).toBe(2);
-        expect(thisSet.cards).toEqual([]);
-        expect(otherSet.cards).toHaveLength(4);
-        expect(otherSet.cards).toEqual([{suit: Suit.spades, rank: Rank.QUEEN},{suit:Suit.hearts, rank: Rank.JACK}].concat(cards.reverse()));
+        expect(set1.cards).toEqual([]);
+        expect(set2.cards).toHaveLength(4);
+        expect(set2.cards).toEqual([{suit: Suit.SPADES, rank: Rank.QUEEN},{suit:Suit.HEARTS, rank: Rank.JACK}].concat(cards.reverse()));
 
         /* put a card when none is peresent */
-        cardsPut = thisSet.put(otherSet, 1);
+        cardsPut = set1.put(set2, 1);
         expect(cardsPut).toBe(0);
-        expect(thisSet.cards).toEqual([]);
-        expect(otherSet.cards).toHaveLength(4);        
+        expect(set1.cards).toEqual([]);
+        expect(set2.cards).toHaveLength(4);        
     });
 
-    test("take", ()=>{       
-        const thisSet = new SetOfCards([{suit: Suit.spades, rank: Rank.QUEEN}]); 
-        const otherSetCards: Card[] = Array.from(cards);
-        otherSetCards.push({suit:Suit.hearts, rank: Rank.JACK});
-        const otherSet = new SetOfCards(otherSetCards);                    
+    test("take", ()=>{
+        const cards1: Card[] = Array.from(cards);
+        cards1.push({suit:Suit.HEARTS, rank: Rank.JACK});
+        const set1 = new SetOfCards(cards1);                    
+        const set2 = new SetOfCards([{suit: Suit.SPADES, rank: Rank.QUEEN}]); 
         
                 
         /* take number of cards less then present in the other set*/
         
-        let cardsTaken = thisSet.take(otherSet, 1);
+        let cardsTaken = set2.take(set1, 1);
         expect(cardsTaken).toBe(1);
-        expect(otherSet.cards).toEqual(cards);
-        expect(thisSet.cards).toHaveLength(2);
-        expect(thisSet.cards).toEqual([{suit: Suit.spades, rank: Rank.QUEEN},{suit:Suit.hearts, rank: Rank.JACK}]);
+        expect(set1.cards).toEqual(cards);
+        expect(set2.cards).toHaveLength(2);
+        expect(set2.cards).toEqual([{suit: Suit.SPADES, rank: Rank.QUEEN},{suit:Suit.HEARTS, rank: Rank.JACK}]);
 
         /* take number of cards more than present in other set */
 
-        cardsTaken = thisSet.take(otherSet, 3);
+        cardsTaken = set2.take(set1, 3);
         expect(cardsTaken).toBe(2);
-        expect(otherSet.cards).toEqual([]);
-        expect(thisSet.cards).toHaveLength(4);
-        expect(thisSet.cards).toEqual([{suit: Suit.spades, rank: Rank.QUEEN},{suit:Suit.hearts, rank: Rank.JACK}].concat(cards.reverse()));
+        expect(set1.cards).toEqual([]);
+        expect(set2.cards).toHaveLength(4);
+        expect(set2.cards).toEqual([{suit: Suit.SPADES, rank: Rank.QUEEN},{suit:Suit.HEARTS, rank: Rank.JACK}].concat(cards.reverse()));
 
-        /* take a card when none is peresent in the other set */
-        cardsTaken = thisSet.take(otherSet, 1);
+        /* take a card when none is peresent */
+        cardsTaken = set2.take(set1, 1);
         expect(cardsTaken).toBe(0);
-        expect(otherSet.cards).toEqual([]);
-        expect(thisSet.cards).toHaveLength(4); 
+        expect(set1.cards).toEqual([]);
+        expect(set2.cards).toHaveLength(4); 
     });
 
-    it('hasCardsOfRank', ()=>{
+    // ;-) (Did we miss some tests?)
+
+    test('hasCardsOfRank', ()=>{
         expect(setOfCards.hasCardsOfRank(Rank.FOUR)).toBeTruthy();
         expect(setOfCards.hasCardsOfRank(Rank.JACK)).toBeFalsy();
         
     });
 
-    it('hasCardsOfSuit', ()=>{
-        expect(setOfCards.hasCardsOfSuit(Suit.hearts)).toBeFalsy();
-        expect(setOfCards.hasCardsOfSuit(Suit.diamonds)).toBeTruthy();
+    test('hasCardsOfSuit', ()=>{
+        expect(setOfCards.hasCardsOfSuit(Suit.HEARTS)).toBeFalsy();
+        expect(setOfCards.hasCardsOfSuit(Suit.DIAMONDS)).toBeTruthy();
     });   
 
-    it('highestRank', ()=>{        
-        expect(setOfCards.highestRank()).toBe(Rank.ACE);
-        expect(setOfCards.highestRank(Suit.clubs)).toBe(Rank.FOUR);
+    test('highestRank', ()=>{        
+      expect(setOfCards.highestRank(Suit.CLUBS)).toBe(Rank.FOUR);
+      expect(setOfCards.highestRank()).toBe(Rank.ACE);        
     });
 
-    it('suitsOfRank', ()=>{
-        expect(setOfCards.suitsOfRank(Rank.FOUR)).toEqual([Suit.clubs]);
-        expect(setOfCards.suitsOfRank(Rank.ACE)).toEqual([Suit.diamonds]);        
+    test('suitsOfRank', ()=> {
+        expect(setOfCards.suitsOfRank(Rank.FOUR)).toEqual([Suit.CLUBS]);
+        expect(setOfCards.suitsOfRank(Rank.ACE)).toEqual([Suit.DIAMONDS]);        
     })
 
-    it('rankOfSuits', ()=>{
-        expect(setOfCards.ranksOfSuit(Suit.clubs)).toEqual([Rank.FOUR]);
-        expect(setOfCards.ranksOfSuit(Suit.diamonds)).toEqual([Rank.ACE]);
+    test('rankOfSuits', () => {
+        expect(setOfCards.ranksOfSuit(Suit.CLUBS)).toEqual([Rank.FOUR]);
+        expect(setOfCards.ranksOfSuit(Suit.DIAMONDS)).toEqual([Rank.ACE]);
     });
+
+    test('sort', () => {
+      const newSet = new SetOfCards([
+        {suit: Suit.HEARTS, rank: Rank.EIGHT},
+        {suit: Suit.HEARTS, rank: Rank.THREE},
+        {suit: Suit.HEARTS, rank: Rank.FOUR},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.TWO}
+      ]);
+
+      const sortedCards = [
+        {suit: Suit.SPADES, rank: Rank.TWO},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},        
+        {suit: Suit.HEARTS, rank: Rank.THREE},
+        {suit: Suit.HEARTS, rank: Rank.FOUR},
+        {suit: Suit.HEARTS, rank: Rank.EIGHT},                
+      ];
+
+      newSet.sort();
+      expect(newSet.cards).toEqual(sortedCards);
+      newSet.sort(true);
+      expect(newSet.cards).toEqual(sortedCards.reverse());
+    })
 })
