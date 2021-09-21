@@ -1,6 +1,3 @@
-// declare type Suit = "hearts" | "diamonds" | "clubs" | "spades";
-// declare type Value = "2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"|"10"|"J"|"Q"|"K"|"A";
-
 export enum Suit {    
     SPADES,
     CLUBS,
@@ -8,7 +5,7 @@ export enum Suit {
     HEARTS  
 }
 
-// ;-)
+//
 export enum Rank {
   TWO = 2,
   THREE,
@@ -126,10 +123,10 @@ export class SetOfCards {
    * @returns rank of the highest-ranked card
    */
   public highestRank(suit?: Suit): Rank {
-    // ;-)
+    //
     let highestRankSoFar: Rank = 0;
     let cards: Card[] = this.cards;
-    // ;-)
+    //
     if (suit) {
       cards = this.cardsOfSuit(suit);
     }
